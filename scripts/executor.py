@@ -105,11 +105,36 @@ def run_python_provider(provider, base_dir):
         # logger.info(f"Cleaned up temp directory: {temp_dir}")
         pass
 
+def run_merge(merge_config, base_dir):
+    logger.info("Starting file merge process...")
+    config_dir = Path(base_dir) / "config"
+    if not config_dir.exists():
+        logger.error(f"Config directory not found: {config_dir}")
+        return
+
+    for output_filename, input_filenames in merge_config.items():
+        logger.info(f"Merging into {output_filename}")
+        merged_content = ""
+        for input_filename in input_filenames:
+            input_path = config_dir / input_filename
+            if input_path.exists():
+                logger.info(f"Reading {input_filename}")
+                with open(input_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    merged_content += content + "\n\n"
+            else:
+                logger.warning(f"File not found for merge: {input_filename}")
+        
+        output_path = config_dir / output_filename
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write(merged_content)
+        logger.info(f"Merged file created: {output_path}")
+
 import argparse
 
 def main():
     parser = argparse.ArgumentParser(description="Execute providers.")
-    parser.add_argument("--type", choices=["python", "node"], required=True, help="Type of providers to run")
+    parser.add_argument("--type", choices=["python", "node", "merge"], required=True, help="Type of providers to run")
     parser.add_argument("--force", action="store_true", help="Force run all providers")
     args = parser.parse_args()
 
@@ -128,10 +153,12 @@ def main():
         for provider in providers:
             if provider.get("enable", True) or args.force:
                 run_python_provider(provider, base_dir)
-    elif args.type == "node":
-        # Placeholder for Node.js support
-        logger.info("Node.js providers are not yet supported.")
-        pass
+    elif args.type == "merge":
+        merge_config = config_data.get("merge", {})
+        if merge_config:
+            run_merge(merge_config, base_dir)
+        else:
+            logger.info("No merge configuration found.")
 
 if __name__ == "__main__":
     main()

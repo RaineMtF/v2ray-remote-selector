@@ -64,5 +64,12 @@
             }
         }
     ],
-    "node": []
+    "node": [],
+    "merge": {
+        "freeproxy.txt": [
+            "freeproxy-cn.txt",
+            "freeproxy-best.txt",
+            "freeproxy-best.txt"
+        ]
+    }
 }
