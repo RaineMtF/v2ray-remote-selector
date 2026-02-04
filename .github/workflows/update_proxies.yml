@@ -1,0 +1,77 @@
+name: Update Proxies
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  python-processor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install executor dependencies
+        run: |
+          pip install PyYAML toml
+
+      - name: Run Python providers
+        run: |
+          python scripts/executor.py --type python
+
+      - name: Upload Python artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: python-config
+          path: config/
+
+  node-processor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Node providers
+        run: |
+          python scripts/executor.py --type node
+
+      - name: Upload Node artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: node-config
+          path: config/
+
+  aggregate-and-commit:
+    needs: [python-processor, node-processor]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: "*-config"
+          path: config/
+          merge-multiple: true
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add config/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: auto update proxies [$(date -u +'%Y-%m-%d %H:%M:%S')]"
+            git push
+          fi

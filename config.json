@@ -1,0 +1,45 @@
+{
+    "python": [
+        {
+            "name": "preeproxy-cn",
+            "url": "https://www.freeproxy.world/",
+            "script": "freeproxy.py",
+            "output": "all_config.txt",
+            "requirements": [
+                "requests",
+                "beautifulsoup4",
+                "pyyaml"
+            ],
+            "config": {
+                "config.yml": {
+                    "type": "",
+                    "anonymity": "",
+                    "country": "CN",
+                    "speed": "",
+                    "port": ""
+                }
+            }
+        },
+        {
+            "name": "preeproxy-best",
+            "url": "https://www.freeproxy.world/",
+            "script": "freeproxy.py",
+            "output": "all_config.txt",
+            "requirements": [
+                "requests",
+                "beautifulsoup4",
+                "pyyaml"
+            ],
+            "config": {
+                "config.yml": {
+                    "type": "",
+                    "anonymity": "",
+                    "country": "",
+                    "speed": "500",
+                    "port": ""
+                }
+            }
+        }
+    ],
+    "node": []
+}
