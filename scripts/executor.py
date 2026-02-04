@@ -55,6 +55,7 @@ def run_python_provider(provider, base_dir):
             pip_exe = venv_dir / "bin" / "pip"
 
         # 4. Install requirements
+        subprocess.run([str(python_exe), "-m", "pip", "install", "--upgrade", "pip"] + requirements, check=True)
         if requirements:
             logger.info(f"Installing requirements: {', '.join(requirements)}")
             subprocess.run([str(pip_exe), "install"] + requirements, check=True)

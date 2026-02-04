@@ -35,7 +35,7 @@ def get_proxies():
     all_v2ray_configs = []
     session = requests.Session()
 
-    for page in range(1, 11):
+    for page in range(1, 22):
         # 构造带有 page 参数的 URL
         current_config = config.copy()
         current_config['page'] = page

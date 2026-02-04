@@ -41,6 +41,27 @@
                     "port": ""
                 }
             }
+        },
+        {
+            "name": "freeproxy-socks",
+            "url": "https://www.freeproxy.world/",
+            "enable": false,
+            "script": "freeproxy.py",
+            "output": "all_config.txt",
+            "requirements": [
+                "requests",
+                "beautifulsoup4",
+                "pyyaml"
+            ],
+            "config": {
+                "config.yml": {
+                    "type": "socks5",
+                    "anonymity": "",
+                    "country": "",
+                    "speed": "",
+                    "port": ""
+                }
+            }
         }
     ],
     "node": []
