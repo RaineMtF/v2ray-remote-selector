@@ -3,6 +3,7 @@
         {
             "name": "freeproxy-cn",
             "url": "https://www.freeproxy.world/",
+            "enable": false,
             "script": "freeproxy.py",
             "output": "all_config.txt",
             "requirements": [
@@ -23,6 +24,7 @@
         {
             "name": "freeproxy-best",
             "url": "https://www.freeproxy.world/",
+            "enable": false,
             "script": "freeproxy.py",
             "output": "all_config.txt",
             "requirements": [

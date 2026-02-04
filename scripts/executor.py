@@ -109,6 +109,7 @@ import argparse
 def main():
     parser = argparse.ArgumentParser(description="Execute providers.")
     parser.add_argument("--type", choices=["python", "node"], required=True, help="Type of providers to run")
+    parser.add_argument("--force", action="store_true", help="Force run all providers")
     args = parser.parse_args()
 
     base_dir = Path(__file__).parent.parent.absolute()
@@ -124,7 +125,8 @@ def main():
     if args.type == "python":
         providers = config_data.get("python", [])
         for provider in providers:
-            run_python_provider(provider, base_dir)
+            if provider.get("enable", True) or args.force:
+                run_python_provider(provider, base_dir)
     elif args.type == "node":
         # Placeholder for Node.js support
         logger.info("Node.js providers are not yet supported.")
