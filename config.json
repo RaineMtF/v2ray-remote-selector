@@ -1,7 +1,7 @@
 {
     "python": [
         {
-            "name": "preeproxy-cn",
+            "name": "freeproxy-cn",
             "url": "https://www.freeproxy.world/",
             "script": "freeproxy.py",
             "output": "all_config.txt",
@@ -21,7 +21,7 @@
             }
         },
         {
-            "name": "preeproxy-best",
+            "name": "freeproxy-best",
             "url": "https://www.freeproxy.world/",
             "script": "freeproxy.py",
             "output": "all_config.txt",
